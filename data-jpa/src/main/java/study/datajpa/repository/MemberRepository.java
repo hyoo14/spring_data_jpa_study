@@ -13,7 +13,7 @@ import javax.persistence.QueryHint;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom { //인터페이스 보고 스프링데이터jpa가 만들어서 인젝션 해준 것! //인터페이스 만든 걸 상속해줌!
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom, JpaSpecificationExecutor<Member> { //인터페이스 보고 스프링데이터jpa가 만들어서 인젝션 해준 것! //인터페이스 만든 걸 상속해줌!
 
     //    List<Member> findByUsername(String username); //공통으로 되지 않은 것 구현하는 것에 문제가 있음
 //    //필요한 것만 만들고 싶은데 이게 인터페이스여서 다 구현해줘야함.
@@ -69,4 +69,15 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 
     @Lock(LockModeType.PESSIMISTIC_WRITE) //jpa가 지원하는 기능. 스프링데이터jpa에서 편하도록 어노테이션 제공
     List<Member> findLockByUsername(String username);
+
+    <T> List<T>  findProjectionsByUsername(@Param("username") String username, Class<T> type);
+
+    @Query(value = "select username from member where username = ?", nativeQuery = true) //entity에 맞게 하려면 필드 다 적어줘야하고 한계가 많음.
+    Member findByNativeQuery(String username); //네이티브 썼다는 것은 다 쪼인해서 하고 싶을 때임. 문제는 반환타입이 몇개 지원 안 됨.
+
+    @Query(value = "select m.member_id as id, m.username, t.name as teamName " +
+            "from member m left join team t",
+            countQuery = "select count(*) from member",
+            nativeQuery = true)
+    Page<MemberProjection> findByNativeProjection(Pageable pageable);
 }
