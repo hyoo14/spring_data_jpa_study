@@ -13,7 +13,7 @@ import javax.persistence.QueryHint;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> { //인터페이스 보고 스프링데이터jpa가 만들어서 인젝션 해준 것!
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom { //인터페이스 보고 스프링데이터jpa가 만들어서 인젝션 해준 것! //인터페이스 만든 걸 상속해줌!
 
     //    List<Member> findByUsername(String username); //공통으로 되지 않은 것 구현하는 것에 문제가 있음
 //    //필요한 것만 만들고 싶은데 이게 인터페이스여서 다 구현해줘야함.

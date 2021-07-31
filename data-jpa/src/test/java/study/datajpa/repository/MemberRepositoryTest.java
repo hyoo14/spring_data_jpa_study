@@ -33,6 +33,8 @@ class MemberRepositoryTest {
     @PersistenceContext
     EntityManager em;
 
+    @Autowired MemberQueryRepository memberQueryRepository; //클래스 분리해서 써도 됨!! 모든 걸 커스텀으로 몰아넣기보다는..
+
     @Test
     public void testMember(){
         System.out.println("memberRepository = " + memberRepository.getClass());
@@ -289,6 +291,11 @@ class MemberRepositoryTest {
         //when
         List<Member> result = memberRepository.findLockByUsername("member1");
         //락 쓸 일 별로 없음. 엄청 깊은 내용. //실시간 트래픽 많은 서비스에서는 락 걸지 마시오
+    }
+
+    @Test
+    public void callCustom(){
+        List<Member> result = memberRepository.findMemberCustom();
     }
 
 }

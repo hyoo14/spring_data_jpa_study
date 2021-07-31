@@ -13,7 +13,12 @@ spring:
 #        dialect: org.hibernate.dialect.Oracle10gDialect
         #show_sql: true
         format_sql: true
-
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 2000
+        one-indexed-parameters: true #1부터 인덱싱 근데 페이지어블이랑 잘 안 맞음 #권장 안 함. 그냥 0부터하시오
 logging.level:
   org.hibernate.SQL: debug
   #org.hibernate.type: trace

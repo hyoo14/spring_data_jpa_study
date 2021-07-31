@@ -13,7 +13,7 @@ import javax.persistence.*;
         query = "select m from Member m where m.username = :username"
 )
 @NamedEntityGraph(name = "Member.all", attributeNodes = @NamedAttributeNode("team")) //jpa 표준 스펙으로 엔티티그래프 이렇게 써도 가능은 함
-public class Member {
+public class Member extends BaseEntity{//JpaBaseEntity
 
     @Id @GeneratedValue//pk값 jpa가 알아서 순차적으로 넣어줌.
     @Column(name = "member_id") //실무에서 좋아하시는 방법. 테이블은 관례상 조인할 때 편하기도 하고.
